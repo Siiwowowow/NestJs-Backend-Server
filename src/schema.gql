@@ -1,0 +1,138 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthPayload {
+  session: Session
+  token: String
+  user: User!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input ForgotPasswordInput {
+  email: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  """Request password reset email"""
+  forgotPassword(input: ForgotPasswordInput!): Boolean!
+
+  """Authenticate user with email and password"""
+  login(input: LoginInput!): AuthPayload!
+
+  """Sign out and invalidate session"""
+  logout: Boolean!
+
+  """Register a new user account"""
+  register(input: RegisterInput!): AuthPayload!
+
+  """Reset password with token"""
+  resetPassword(input: ResetPasswordInput!): Boolean!
+
+  """Update current user profile"""
+  updateProfile(input: UpdateUserInput!): User!
+
+  """Admin mutation to update user role"""
+  updateUserRole(input: UpdateUserRoleInput!): User!
+
+  """Admin mutation to update user status"""
+  updateUserStatus(input: UpdateUserStatusInput!): User!
+
+  """Verify email address"""
+  verifyEmail(input: VerifyEmailInput!): Boolean!
+}
+
+type Query {
+  """Get current authenticated user profile"""
+  me: User!
+
+  """Admin query for system overview statistics"""
+  systemStats: SystemStats!
+
+  """Get user by ID with DataLoader optimization"""
+  user(id: ID!): User!
+}
+
+input RegisterInput {
+  email: String!
+  name: String!
+  password: String!
+  phoneNumber: String
+}
+
+input ResetPasswordInput {
+  newPassword: String!
+  token: String!
+}
+
+"""User access role"""
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+  USER
+}
+
+type Session {
+  expiresAt: DateTime!
+  id: ID!
+  ipAddress: String
+  token: String!
+  userAgent: String
+}
+
+type SystemStats {
+  activeSessions: Int!
+  activeUsers: Int!
+  suspendedUsers: Int!
+  totalUsers: Int!
+}
+
+input UpdateUserInput {
+  image: String
+  name: String
+  phoneNumber: String
+}
+
+input UpdateUserRoleInput {
+  role: Role!
+  userId: ID!
+}
+
+input UpdateUserStatusInput {
+  status: UserStatus!
+  userId: ID!
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  emailVerified: Boolean!
+  id: ID!
+  image: String
+  name: String!
+  phoneNumber: String
+  role: Role!
+  status: UserStatus!
+  updatedAt: DateTime!
+}
+
+"""User account status"""
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  PENDING_VERIFICATION
+  SUSPENDED
+}
+
+input VerifyEmailInput {
+  token: String!
+}
