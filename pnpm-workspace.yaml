@@ -2,5 +2,6 @@ allowBuilds:
   '@apollo/protobufjs': true
   '@prisma/client': true
   '@prisma/engines': true
+  '@swc/core': true
   bcrypt: true
   prisma: true
